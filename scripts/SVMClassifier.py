@@ -3,58 +3,75 @@ import matplotlib.pyplot as plt
 from sklearn import datasets, svm
 
 
-print "Loading Iris"
-iris = datasets.load_iris()
-print "Loading complete"
+class SVMClassifier:
+    def __init__(self, kernel='rbf', gamma=10):
+        self.classifier = svm.SVC(kernel=kernel, gamma=gamma)
 
-X = iris.data
-y = iris.target
+    def train(self, feature_matrix, classes):
+        """
+        :param feature_matrix: size is n_features * num_samples
+        :param classes: size is num_samples
+        """
+        self.classifier.fit(feature_matrix, classes)
 
-print iris.data
-print iris.target
 
-X = X[y != 0, :2]
-y = y[y != 0]
+    def predict(self, x):
+        return self.classifier.predict(x)
 
-n_sample = len(X)
 
-np.random.seed(0)
-order = np.random.permutation(n_sample)
-X = X[order]
-y = y[order].astype(np.float)
+if __name__ == "__main__":
+    print "Loading Iris"
+    iris = datasets.load_iris()
+    print "Loading complete"
 
-X_train = X[:.9 * n_sample]
-y_train = y[:.9 * n_sample]
-X_test = X[.9 * n_sample:]
-y_test = y[.9 * n_sample:]
+    X = iris.data
+    y = iris.target
 
-# fit the model
+    print iris.data
+    print iris.target
 
-for fig_num, kernel in enumerate(('linear', 'rbf', 'poly')):
-    clf = svm.SVC(kernel=kernel, gamma=10)
-    clf.fit(X_train, y_train)
+    X = X[y != 0, :2]
+    y = y[y != 0]
 
-    plt.figure(fig_num)
-    plt.clf()
-    plt.scatter(X[:, 0], X[:, 1], c=y, zorder=10, cmap=plt.cm.Paired)
+    n_sample = len(X)
 
-    # Circle out the test data
-    plt.scatter(X_test[:, 0], X_test[:, 1], s=80, facecolors='none', zorder=10)
+    np.random.seed(0)
+    order = np.random.permutation(n_sample)
+    X = X[order]
+    y = y[order].astype(np.float)
 
-    plt.axis('tight')
-    x_min = X[:, 0].min()
-    x_max = X[:, 0].max()
-    y_min = X[:, 1].min()
-    y_max = X[:, 1].max()
+    X_train = X[:.9 * n_sample]
+    y_train = y[:.9 * n_sample]
+    X_test = X[.9 * n_sample:]
+    y_test = y[.9 * n_sample:]
 
-    XX, YY = np.mgrid[x_min:x_max:200j, y_min:y_max:200j]
-    Z = clf.decision_function(np.c_[XX.ravel(), YY.ravel()])
+    # fit the model
 
-    # Put the result into a color plot
-    Z = Z.reshape(XX.shape)
-    plt.pcolormesh(XX, YY, Z > 0, cmap=plt.cm.Paired)
-    plt.contour(XX, YY, Z, colors=['k', 'k', 'k'], linestyles=['--', '-', '--'],
-                levels=[-.5, 0, .5])
+    for fig_num, kernel in enumerate(('linear', 'rbf', 'poly')):
+        clf = svm.SVC(kernel=kernel, gamma=10)
+        clf.fit(X_train, y_train)
 
-    plt.title(kernel)
-plt.show()
+        plt.figure(fig_num)
+        plt.clf()
+        plt.scatter(X[:, 0], X[:, 1], c=y, zorder=10, cmap=plt.cm.Paired)
+
+        # Circle out the test data
+        plt.scatter(X_test[:, 0], X_test[:, 1], s=80, facecolors='none', zorder=10)
+
+        plt.axis('tight')
+        x_min = X[:, 0].min()
+        x_max = X[:, 0].max()
+        y_min = X[:, 1].min()
+        y_max = X[:, 1].max()
+
+        XX, YY = np.mgrid[x_min:x_max:200j, y_min:y_max:200j]
+        Z = clf.decision_function(np.c_[XX.ravel(), YY.ravel()])
+
+        # Put the result into a color plot
+        Z = Z.reshape(XX.shape)
+        plt.pcolormesh(XX, YY, Z > 0, cmap=plt.cm.Paired)
+        plt.contour(XX, YY, Z, colors=['k', 'k', 'k'], linestyles=['--', '-', '--'],
+                    levels=[-.5, 0, .5])
+
+        plt.title(kernel)
+    plt.show()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
-from SkynetDetector import SkynetDetector
+from scripts.SkynetDetector import SkynetDetector
 
 class Strategy:
     """
@@ -56,7 +56,7 @@ class BestStrategiesCalculator:
 
                     skynet_detector = SkynetDetector(strategy.features)
                     skynet_detector.train(input_file)
-                    accuracy = skynet_detector.evaluate("Holla gringo!")
+                    accuracy = skynet_detector.evaluate(1, "Holla gringo!")
 
                     if debug: print str(accuracy) + ")"
 

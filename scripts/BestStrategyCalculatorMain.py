@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import traceback, sys
+import sys
+import traceback
+
 import BestStrategyCalculatorPreviousDevel
 from BestStrategyCalculator import BestStrategiesCalculator
 from BestStrategyCalculator import Strategy
-from Features import *
 from POSTagger import POSTagger
+from Features.Features import *
+
 
 def arange(x, y, jump=0.1):
   while x <= y:
     yield x
     x += jump
+
 
 def benchmark(data_set_file_path, previous_tests_function):
     tagger = POSTagger()

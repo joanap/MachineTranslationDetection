@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from Features import *
-from BestStrategyCalculator import Strategy
+from scripts.BestStrategyCalculator import Strategy
+from scripts.Features.Features import *
 
 
 def add_already_calculated(bsc, tagger):

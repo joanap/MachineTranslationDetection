@@ -3,9 +3,8 @@
 
 
 class DatasetSplitter:
-    def __init__(self, line_callback, end_file_callback):
+    def __init__(self, line_callback):
         self._read_line_callback = line_callback
-        self._end_file_callback = end_file_callback
 
     def split(self, input_file_path):
         with open(input_file_path, 'r+') as training:
@@ -20,5 +19,3 @@ class DatasetSplitter:
                     sentence = split[1]
 
                     self._read_line_callback(sentence_type, sentence)
-
-            self._end_file_callback()
