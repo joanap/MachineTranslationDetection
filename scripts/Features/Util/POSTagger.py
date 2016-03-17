@@ -84,25 +84,36 @@ class POSTagger:
         When applicable. Following http://www.ilc.cnr.it/EAGLES96/annotate/node17.html
         :param tag1:
         :param tag2:
-        :return: True False or None (if not applicable)
+        :return: True or False
         """
 
-        #[('\xc3\xa9l', 'n'), ('gusta', u'vmip3s0')]
-        #[('ellas', u'pp3fp000'), ('gustan', u'vmip3p0')]
-        #[('ella', u'pp3fs000'), ('gusta', u'vmip3s0')]
-        #[('ellos', u'pp3mp000'), ('gustan', u'vmip3p0')]
-        #[('ellos', u'pp3mp000'), ('gustan', u'vmip3p0')]
-
-        if tag1.startswith('n') or tag2.startswith('n'):
-            return True
-        if tag1.startswith('v') and tag2.startswith("pp"):
+        number1, gender1 = None, None
+        if tag1.startswith('v'):
             number1, gender1 = self.number_from_verb(tag1), self.gender_from_verb(tag1)
-            number2, gender2 = self.number_from_pronom(tag2), self.gender_from_pronom(tag2)
+        elif tag1.startswith('pp'):
+            number1, gender1 = self.number_from_pronom(tag1), self.gender_from_pronom(tag1)
+        elif tag1.startswith('a'):
+            number1, gender1 = self.number_from_adjective(tag1), self.gender_from_adjective(tag1)
 
-            # indefinite gender
-            return number1 == number2 and gender1 == "i" or gender2 == "i" or gender1 == gender2
-        else:
+        number2, gender2 = None, None
+        if tag2.startswith('v'):
+            number2, gender2 = self.number_from_verb(tag2), self.gender_from_verb(tag2)
+        elif tag2.startswith('pp'):
+            number2, gender2 = self.number_from_pronom(tag2), self.gender_from_pronom(tag2)
+        elif tag2.startswith('a'):
+            number2, gender2 = self.number_from_adjective(tag2), self.gender_from_adjective(tag2)
+
+        if number1 is None or gender1 is None:
             return True
+
+
+        print number1
+        print number2
+        print gender1
+        print gender2
+
+        return number1 == number2 and (gender1 == "i" or gender2 == "i" or gender1 == gender2)
+
 
     def number_from_verb(self, tag):
         return tag[5]
@@ -116,38 +127,19 @@ class POSTagger:
     def gender_from_pronom(self, tag):
         return tag[3]
 
+    def number_from_adjective(self, tag):
+        return tag[4]
+
+    def gender_from_adjective(self, tag):
+        return tag[3]
 
 if __name__ == '__main__':
     tagger = POSTagger()
 
+    #[('guapa', u'aq0fs0'), ('rojo', u'aq0ms0'), ('alto', u'aq0ms0'), ('alta', u'aq0fs0'), ('altos', u'aq0mp0'), ('altas', u'aq0fp0'), ('popular', u'aq0cs0')]
 
 
-    print tagger.are_in_concordance(u'vmip3p0', u'pp3mp000')
-    #yo         p | p | 1 | c | s | n
-    #ella       p | p | 3 | f | s | 0
-    #tú         p | p | 2 | c | s | n
-    #ellas      p | p | 3 | f | p | 0
-    #nosotros   p | p | 1 | m | p | 0
-    #nosotras  nada
-    #usted      p | p | 2 | c | s | 0
-
-    # tipo | subtipo | pessoa | género | número | ?
-
-
-    #guapa      a | q | 0 | f | s | 0
-
-    #[('el', u'da0ms0'), ('la', u'da0fs0'), ('los', u'da0mp0'), ('las', u'da0fp0')]
-    #[('un', u'di0ms0'), ('una', u'di0fs0'), ('unos', u'di0mp0'), ('unas', u'di0fp0')]
-
-    #propositions
-    #[('a', u'sps00'), ('con', u'sps00'), ('de', u'sps00'), ('por', u'sps00'), ('para', u'sps00')]
-
-
-    #print tagger.tag_sentence("él gusta")
-    #print tagger.tag_sentence("ellas gustan")
-    #print tagger.tag_sentence("ella gusta")
-
-    #print tagger.tag_sentence("ellos gustan")
+    #print tagger.tag_sentence("guapa rojo alto alta altos altas popular")
 
     #print tagger.tag_sentence(u"yo publica fotos de ella Crush Hombre !")
 
