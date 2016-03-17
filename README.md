@@ -8,7 +8,31 @@ inser description here
 - [Machine Translation Detection From Monolingual Web-Text](http://www.aclweb.org/anthology/P13-1157)
 - [Support Vector Machines (SVM)](http://scikit-learn.org/stable/modules/svm.html)
 
+# Instalation
+
+Dependencies:
+* Tested using python 2.7
+* Natural Language Toolkit (NLTK) for NLP
+* scikit-learn for ML
+
+Download and extract the repository zip.
+
 # Usage
+
+### Straightfoward python scripts:
+- Evaluate the accuracy of the model [SkynetDetectorModelAccuracy.py](https://github.com/joanap/MachineTranslationDetection/blob/master/scripts/SkynetDetectorModelAccuracy.py):
+
+```sh
+python scripts/SkynetDetectorModelAccuracy.py data/train_dataset.txt data/test_dataset.txt
+```
+
+- Evaluate a input file [SkynetDetectorEvaluateToFile.py](https://github.com/joanap/MachineTranslationDetection/blob/master/scripts/SkynetDetectorEvaluateToFile.py):
+
+```sh
+python scripts/SkynetDetectorEvaluateToFile.py data/train_dataset.txt data/test_dataset.txt > output.txt
+```
+
+### Advanced Usage
 
 The main class is SkynetDetector receives as arguments a classifier (instance of `ClassifierAbstract` defined in
 [Classifiers folder](https://github.com/joanap/MachineTranslationDetection/tree/master/scripts/Classifiers)) and a list 
@@ -36,28 +60,6 @@ def accuracy(self, test_file_path)
 ```python
 def predict(self, sentence, print_to_console=True)
 ```
-
-We already provide some python scripts:
-- Evaluate the accuracy of the model [SkynetDetectorModelAccuracy.py](https://github.com/joanap/MachineTranslationDetection/blob/master/scripts/SkynetDetectorModelAccuracy.py):
-
-```sh
-python scripts/SkynetDetectorModelAccuracy.py data/train_dataset.txt data/test_dataset.txt
-```
-
-- Evaluate a input file [SkynetDetectorEvaluateToFile.py](https://github.com/joanap/MachineTranslationDetection/blob/master/scripts/SkynetDetectorEvaluateToFile.py):
-
-```sh
-python scripts/SkynetDetectorEvaluateToFile.py data/train_dataset.txt data/test_dataset.txt > output.txt
-```
-
-# Instalation
-
-Dependencies:
-* Tested using python 2.7
-* Natural Language Toolkit (NLTK) for NLP
-* scikit-learn for ML
-
-Download and extract the repository zip.
 
 # Troubleshooting
 
