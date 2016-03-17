@@ -106,14 +106,7 @@ class POSTagger:
         if number1 is None or gender1 is None:
             return True
 
-
-        print number1
-        print number2
-        print gender1
-        print gender2
-
         return number1 == number2 and (gender1 == "i" or gender2 == "i" or gender1 == gender2)
-
 
     def number_from_verb(self, tag):
         return tag[5]
