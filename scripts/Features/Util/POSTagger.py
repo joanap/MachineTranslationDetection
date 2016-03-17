@@ -5,7 +5,14 @@ from nltk.corpus import cess_esp
 
 
 class POSTagger:
-    DEFAULT_TAG = 'n'
+    DEFAULT_TAG = "n"
+
+    ARTICLE = "d"
+    INDEFINITE_ARTICLE = "i" # second letter
+    DEFINITE_ARTICLE = "a" # second letter
+
+    PROPOSITIONS = "s"
+
 
     def __init__(self, tsents=cess_esp.tagged_sents()):
         """
@@ -58,6 +65,89 @@ class POSTagger:
             result += el[0] + " "
         return result
 
+    def get_tag(self, word):
+        """
+        Returns the tag of the tuple
+        :param word:
+        :return: the tag
+        """
+        return word[1]
+
+    def get_category(self, tag):
+        return tag[0]
+
+    def is_pronoun(self, tag):
+        return self.get_category(tag)
+
+    def are_in_concordance(self, tag1, tag2):
+        """
+        When applicable. Following http://www.ilc.cnr.it/EAGLES96/annotate/node17.html
+        :param tag1:
+        :param tag2:
+        :return: True False or None (if not applicable)
+        """
+
+        #[('\xc3\xa9l', 'n'), ('gusta', u'vmip3s0')]
+        #[('ellas', u'pp3fp000'), ('gustan', u'vmip3p0')]
+        #[('ella', u'pp3fs000'), ('gusta', u'vmip3s0')]
+        #[('ellos', u'pp3mp000'), ('gustan', u'vmip3p0')]
+        #[('ellos', u'pp3mp000'), ('gustan', u'vmip3p0')]
+
+        if tag1.startswith('n') or tag2.startswith('n'):
+            return True
+        if tag1.startswith('v') and tag2.startswith("pp"):
+            number1, gender1 = self.number_from_verb(tag1), self.gender_from_verb(tag1)
+            number2, gender2 = self.number_from_pronom(tag2), self.gender_from_pronom(tag2)
+
+            # indefinite gender
+            return number1 == number2 and gender1 == "i" or gender2 == "i" or gender1 == gender2
+        else:
+            return True
+
+    def number_from_verb(self, tag):
+        return tag[5]
+
+    def gender_from_verb(self, tag):
+        return tag[2]
+
+    def number_from_pronom(self, tag):
+        return tag[4]
+
+    def gender_from_pronom(self, tag):
+        return tag[3]
+
+
 if __name__ == '__main__':
     tagger = POSTagger()
-    print tagger.tag_sentence(u"Ella publica fotos de ella Crush Hombre !")
+
+
+
+    print tagger.are_in_concordance(u'vmip3p0', u'pp3mp000')
+    #yo         p | p | 1 | c | s | n
+    #ella       p | p | 3 | f | s | 0
+    #tú         p | p | 2 | c | s | n
+    #ellas      p | p | 3 | f | p | 0
+    #nosotros   p | p | 1 | m | p | 0
+    #nosotras  nada
+    #usted      p | p | 2 | c | s | 0
+
+    # tipo | subtipo | pessoa | género | número | ?
+
+
+    #guapa      a | q | 0 | f | s | 0
+
+    #[('el', u'da0ms0'), ('la', u'da0fs0'), ('los', u'da0mp0'), ('las', u'da0fp0')]
+    #[('un', u'di0ms0'), ('una', u'di0fs0'), ('unos', u'di0mp0'), ('unas', u'di0fp0')]
+
+    #propositions
+    #[('a', u'sps00'), ('con', u'sps00'), ('de', u'sps00'), ('por', u'sps00'), ('para', u'sps00')]
+
+
+    #print tagger.tag_sentence("él gusta")
+    #print tagger.tag_sentence("ellas gustan")
+    #print tagger.tag_sentence("ella gusta")
+
+    #print tagger.tag_sentence("ellos gustan")
+
+    #print tagger.tag_sentence(u"yo publica fotos de ella Crush Hombre !")
+
