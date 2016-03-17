@@ -30,11 +30,11 @@ class SkynetDetector:
 
         return prediction
 
-    def accuracy(self, file_path):
+    def accuracy(self, test_file_path):
         self.stats = Stats()
 
         splitter = DatasetSplitter(line_callback=self._evaluate)
-        splitter.split(file_path)
+        splitter.split(test_file_path)
 
         return self.stats.accuracy()
 

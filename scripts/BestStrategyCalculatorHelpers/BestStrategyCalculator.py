@@ -56,7 +56,7 @@ class BestStrategiesCalculator:
 
                     skynet_detector = SkynetDetector(classifier, strategy.features)
                     skynet_detector.train(input_file)
-                    accuracy = skynet_detector.accuracy(file_path=test_file)
+                    accuracy = skynet_detector.accuracy(test_file_path=test_file)
 
                     if debug: print str(accuracy) + ")"
 
