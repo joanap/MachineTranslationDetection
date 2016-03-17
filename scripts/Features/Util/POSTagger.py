@@ -7,6 +7,8 @@ from nltk.corpus import cess_esp
 class POSTagger:
     DEFAULT_TAG = "n"
 
+    ADJECTIVE = "a"
+
     ARTICLE = "d"
     INDEFINITE_ARTICLE = "i" # second letter
     DEFINITE_ARTICLE = "a" # second letter
@@ -94,6 +96,8 @@ class POSTagger:
             number1, gender1 = self.number_from_pronom(tag1), self.gender_from_pronom(tag1)
         elif tag1.startswith('a'):
             number1, gender1 = self.number_from_adjective(tag1), self.gender_from_adjective(tag1)
+        else:
+            return True
 
         number2, gender2 = None, None
         if tag2.startswith('v'):
@@ -102,8 +106,7 @@ class POSTagger:
             number2, gender2 = self.number_from_pronom(tag2), self.gender_from_pronom(tag2)
         elif tag2.startswith('a'):
             number2, gender2 = self.number_from_adjective(tag2), self.gender_from_adjective(tag2)
-
-        if number1 is None or gender1 is None:
+        else:
             return True
 
         return number1 == number2 and (gender1 == "i" or gender2 == "i" or gender1 == gender2)
@@ -125,14 +128,3 @@ class POSTagger:
 
     def gender_from_adjective(self, tag):
         return tag[3]
-
-if __name__ == '__main__':
-    tagger = POSTagger()
-
-    #[('guapa', u'aq0fs0'), ('rojo', u'aq0ms0'), ('alto', u'aq0ms0'), ('alta', u'aq0fs0'), ('altos', u'aq0mp0'), ('altas', u'aq0fp0'), ('popular', u'aq0cs0')]
-
-
-    #print tagger.tag_sentence("guapa rojo alto alta altos altas popular")
-
-    #print tagger.tag_sentence(u"yo publica fotos de ella Crush Hombre !")
-
