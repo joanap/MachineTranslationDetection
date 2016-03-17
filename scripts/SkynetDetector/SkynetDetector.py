@@ -1,7 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -
-
-from scripts.Classifiers.SVMClassifier import *
 from DatasetSplitter import *
 from Stats import *
 
@@ -21,9 +17,18 @@ class SkynetDetector:
         # provide data to train svm
         self.classifier.train(self._features_data, self._data_classes)
 
-    def predict(self, sentence):
+    def evaluate_file(self, file_path):
+        splitter = DatasetSplitter(line_callback=self.predict, parse_class=False)
+        splitter.split(file_path)
+
+    def predict(self, sentence, print_to_console=True):
         feature_vector = self._process_features(sentence)
-        return self.classifier.predict([feature_vector])
+        prediction = self.classifier.predict([feature_vector])[0]
+
+        if print_to_console:
+            print str(prediction) + "\t" + sentence.strip("\n")
+
+        return prediction
 
     def accuracy(self, file_path):
         self.stats = Stats()
@@ -45,5 +50,5 @@ class SkynetDetector:
         return feature_vector
 
     def _evaluate(self, expected_class_sentence, sentence):
-        predicted_class = self.predict(sentence)
+        predicted_class = self.predict(sentence, print_to_console=False)
         self.stats.add(expected_class_sentence, predicted_class)

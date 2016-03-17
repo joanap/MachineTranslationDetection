@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from scripts.BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
 from scripts.Features.Features import *
 from scripts.Classifiers.SVMClassifier import *

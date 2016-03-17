@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-
 import sys, traceback
-
 import BestStrategyCalculatorPreviousDevel as bscpd
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import BestStrategiesCalculator
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
 from Features.Features import *
 from Features.Util.POSTagger import POSTagger
 from Classifiers.SVMClassifier import *
+
 
 def arange(x, y, jump=0.1):
   while x <= y:
@@ -28,16 +26,19 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
 
     bsc.add_test(SVMClassifier(), Strategy(Feature2(), Feature3()))
 
+    error_status = 0
     try:
         bsc.determine_best_strategy(train_dataset, test_dataset, debug=True)
     except Exception:
         print "\nXXXXXXXXXXXXXXX\nXXXXXXXXXXXXXXX\n"
         traceback.print_exc(file=sys.stdout)
         print "\nXXXXXXXXXXXXXXX\nXXXXXXXXXXXXXXX\n"
+        error = 1
     finally:
         print ""
         bsc.show_results()
 
+    sys.exit(error_status)
 
 if __name__ == "__main__":
     train_dataset_path = "../data/train_dataset.txt"

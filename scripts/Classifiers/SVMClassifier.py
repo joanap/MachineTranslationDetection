@@ -71,5 +71,5 @@ if __name__ == "__main__":
         plt.contour(XX, YY, Z, colors=['k', 'k', 'k'], linestyles=['--', '-', '--'],
                     levels=[-.5, 0, .5])
 
-        plt.title(kernel)
+        plt.title(kernel_type)
     plt.show()
