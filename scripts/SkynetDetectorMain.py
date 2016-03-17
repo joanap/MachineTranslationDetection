@@ -4,6 +4,7 @@
 import sys
 from scripts.SkynetDetector.SkynetDetector import SkynetDetector
 from scripts.Features.Features import *
+from Classifiers.SVMClassifier import *
 
 if __name__ == "__main__":
     train_file = "../data/train_dataset.txt"
@@ -16,9 +17,10 @@ if __name__ == "__main__":
         input_file_path, test_file = sys.argv[1], sys.argv[2]
 
     # best features
+    classifier = SVMClassifier()
     features = [Feature1(), Feature2(), Feature3()]
 
-    a = SkynetDetector(features)
+    a = SkynetDetector(classifier, features)
     print "Training..."
     a.train(input_file_path)
 

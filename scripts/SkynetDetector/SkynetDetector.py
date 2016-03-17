@@ -7,12 +7,12 @@ from Stats import *
 
 
 class SkynetDetector:
-    def __init__(self, features_processors):
+    def __init__(self, classifier, features_processors):
         self._features = features_processors
         self._data_classes = []
         self._features_data = []
         self.stats = None
-        self.classifier = SVMClassifier()
+        self.classifier = classifier
 
     def train(self, file_path):
         splitter = DatasetSplitter(line_callback=self._process_sentence)

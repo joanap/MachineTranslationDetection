@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import hashlib
 from scripts.SkynetDetector.SkynetDetector import SkynetDetector
 
 
@@ -28,16 +27,17 @@ class BestStrategiesCalculator:
         self.__strategies_map = {}
         self.__sorted_strategies = list()
 
-    def add_test(self, strategy, accuracy=None):
-        tp = self._create_tuple(strategy, accuracy)
+    def add_test(self, classifier, strategy, accuracy=None):
+        tp = self._create_tuple(classifier, strategy, accuracy)
 
-        key = self.__key(strategy)
+        key = self.__key(classifier, strategy)
         if key not in self.__strategies_map:
             self.__strategies_map[key] = True # place holder
             self.__strategies.append(tp)
 
-    def __key(self, strategy):
-        return hashlib.md5(strategy.description)
+    def __key(self, classifier, strategy):
+        # we can do a md5 hash here...
+        return classifier.description + "-" + strategy.description
 
     def determine_best_strategy(self, input_file, test_file, debug=False):
         """
@@ -49,19 +49,20 @@ class BestStrategiesCalculator:
 
         try:
             for tupl in self.__strategies:
-                strategy = tupl[0]
-                accuracy = tupl[1]
+                classifier = tupl[0]
+                strategy = tupl[1]
+                accuracy = tupl[2]
 
                 if accuracy is None:
-                    if debug: print "bsc.add_test(" + strategy.description + ",",
+                    if debug: print "bsc.add_test(" + classifier.description + "," + strategy.description + ",",
 
-                    skynet_detector = SkynetDetector(strategy.features)
+                    skynet_detector = SkynetDetector(classifier, strategy.features)
                     skynet_detector.train(input_file)
                     accuracy = skynet_detector.accuracy(file_path=test_file)
 
                     if debug: print str(accuracy) + ")"
 
-                result.append(self._create_tuple(strategy, accuracy))
+                result.append(self._create_tuple(classifier, strategy, accuracy))
 
         except KeyboardInterrupt:
             print ".... Stopping....."
@@ -69,10 +70,10 @@ class BestStrategiesCalculator:
             # sort
             self.__strategies = list(result)
             self.__sorted_strategies = list(result)
-            self.__sorted_strategies.sort(key=lambda tup: tup[1], reverse=True)
+            self.__sorted_strategies.sort(key=lambda tup: tup[2], reverse=True)
 
-    def _create_tuple(self, strategy, accuracy):
-        return (strategy, accuracy)
+    def _create_tuple(self, classifier, strategy, accuracy):
+        return (classifier, strategy, accuracy)
 
     def show_results(self):
         """
@@ -88,8 +89,9 @@ class BestStrategiesCalculator:
         print "="
         for tp in self.__sorted_strategies:
             print "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
-            print "= Features=", tp[0].description
-            print "= ACCURACY=", str(tp[1]*100), "%"
+            print "= Classifier", tp[0].description
+            print "= Features=", tp[1].description
+            print "= ACCURACY=", str(tp[2]*100), "%"
         print "="
         print "========================================================================"
 

@@ -1,19 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import datasets, svm
+from ClassifierAbstract import *
 
 
-class SVMClassifier:
+class SVMClassifier(ClassifierAbstract):
     def __init__(self, kernel='rbf', gamma=10):
+        ClassifierAbstract.__init__(self)
+        self._add_arguments_description("'" + kernel + "'", gamma)
         self.classifier = svm.SVC(kernel=kernel, gamma=gamma)
 
     def train(self, feature_matrix, classes):
-        """
-        :param feature_matrix: size is n_features * num_samples
-        :param classes: size is num_samples
-        """
         self.classifier.fit(feature_matrix, classes)
-
 
     def predict(self, x):
         return self.classifier.predict(x)
@@ -47,8 +45,8 @@ if __name__ == "__main__":
 
     # fit the model
 
-    for fig_num, kernel in enumerate(('linear', 'rbf', 'poly')):
-        clf = svm.SVC(kernel=kernel, gamma=10)
+    for fig_num, kernel_type in enumerate(('linear', 'rbf', 'poly')):
+        clf = svm.SVC(kernel=kernel_type, gamma=10)
         clf.fit(X_train, y_train)
 
         plt.figure(fig_num)

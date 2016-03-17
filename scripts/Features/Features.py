@@ -1,10 +1,10 @@
-from FeatureProcessor import FeatureProcessor
+from FeatureProcessorAbstract import FeatureProcessor
 
 
 class Feature1(FeatureProcessor):
     def __init__(self):
         FeatureProcessor.__init__(self)
-        self._add_arguments_description("arg1", "arg2")
+        self._add_arguments_description()
 
     def process(self, sentence):
         return 0.1

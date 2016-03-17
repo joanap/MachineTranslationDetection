@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import sys
-import traceback
+import sys, traceback
 
-import scripts.BestStrategyCalculatorPreviousDevel as bscpd
+import BestStrategyCalculatorPreviousDevel as bscpd
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import BestStrategiesCalculator
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
 from Features.Features import *
 from Features.Util.POSTagger import POSTagger
-
+from Classifiers.SVMClassifier import *
 
 def arange(x, y, jump=0.1):
   while x <= y:
@@ -27,7 +26,7 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
     # ADD TESTS BELOW
     #####################################
 
-    bsc.add_test(Strategy(Feature2(), Feature3()))
+    bsc.add_test(SVMClassifier(), Strategy(Feature2(), Feature3()))
 
     try:
         bsc.determine_best_strategy(train_dataset, test_dataset, debug=True)
