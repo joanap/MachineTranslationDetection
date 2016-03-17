@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
-from scripts.SkynetDetector import SkynetDetector
+from scripts.SkynetDetector.SkynetDetector import SkynetDetector
+
 
 class Strategy:
     """
@@ -38,7 +39,7 @@ class BestStrategiesCalculator:
     def __key(self, strategy):
         return hashlib.md5(strategy.description)
 
-    def determine_best_strategy(self, input_file, debug=False):
+    def determine_best_strategy(self, input_file, test_file, debug=False):
         """
         For every strategy provided in the constructor, determines the program accuracy and stores the information sorted
         in the variable __strategies_map
@@ -56,7 +57,7 @@ class BestStrategiesCalculator:
 
                     skynet_detector = SkynetDetector(strategy.features)
                     skynet_detector.train(input_file)
-                    accuracy = skynet_detector.evaluate(1, "Holla gringo!")
+                    accuracy = skynet_detector.accuracy(file_path=test_file)
 
                     if debug: print str(accuracy) + ")"
 

@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import sys
-import traceback
-
-import BestStrategyCalculatorPreviousDevel
-from BestStrategyCalculator import BestStrategiesCalculator
-from BestStrategyCalculator import Strategy
-from POSTagger import POSTagger
+import sys, traceback
+import BestStrategyCalculatorHelpers.BestStrategyCalculatorPreviousDevel as bscpd
 from Features.Features import *
+from Features.Util.POSTagger import POSTagger
+from BestStrategyCalculatorHelpers.BestStrategyCalculator import BestStrategiesCalculator
+from BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
 
 
 def arange(x, y, jump=0.1):
@@ -16,7 +14,7 @@ def arange(x, y, jump=0.1):
     x += jump
 
 
-def benchmark(data_set_file_path, previous_tests_function):
+def benchmark(train_dataset, test_dataset, previous_tests_function):
     tagger = POSTagger()
     tagger.train()
 
@@ -30,7 +28,7 @@ def benchmark(data_set_file_path, previous_tests_function):
     bsc.add_test(Strategy(Feature2(), Feature3()))
 
     try:
-        bsc.determine_best_strategy(data_set_file_path, debug=True)
+        bsc.determine_best_strategy(train_dataset, test_dataset, debug=True)
     except Exception:
         print "\nXXXXXXXXXXXXXXX\nXXXXXXXXXXXXXXX\n"
         traceback.print_exc(file=sys.stdout)
@@ -41,5 +39,7 @@ def benchmark(data_set_file_path, previous_tests_function):
 
 
 if __name__ == "__main__":
-    data_set_file_path = "../data/training.txt"
-    benchmark(data_set_file_path, BestStrategyCalculatorPreviousDevel.add_already_calculated)
+    train_dataset_path = "../data/train_dataset.txt"
+    test_dataset_path = "../data/test_dataset.txt"
+
+    benchmark(train_dataset_path, test_dataset_path, bscpd.add_already_calculated)

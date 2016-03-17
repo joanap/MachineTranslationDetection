@@ -1,12 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -
 
-import sys, random
+from scripts.Classifiers.SVMClassifier import *
+from DatasetSplitter import *
+from Stats import *
 
-from DatasetSplitter import DatasetSplitter
-from scripts.Features.Features import *
-from Stats import Stats
-from SVMClassifier import SVMClassifier
 
 class SkynetDetector:
     def __init__(self, features_processors):
@@ -49,23 +47,3 @@ class SkynetDetector:
     def _evaluate(self, expected_class_sentence, sentence):
         predicted_class = self.predict(sentence)
         self.stats.add(expected_class_sentence, predicted_class)
-
-if __name__ == "__main__":
-    train_file = "../data/train_dataset.txt"
-    test_file = "../data/test_dataset.txt"
-
-    input_file_path = train_file
-    if len(sys.argv) == 2:
-        input_file_path = sys.argv[1]
-    elif len(sys.argv) == 3:
-        input_file_path, test_file = sys.argv[1], sys.argv[2]
-
-    features = [Feature1(), Feature2(), Feature3()]
-
-    a = SkynetDetector(features)
-    print "Training..."
-    a.train(input_file_path)
-
-    print "Testing..."
-    accuracy = a.accuracy(test_file)
-    print accuracy

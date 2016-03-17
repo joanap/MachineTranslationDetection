@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from scripts.BestStrategyCalculator import Strategy
+from scripts.BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
 from scripts.Features.Features import *
 
 
