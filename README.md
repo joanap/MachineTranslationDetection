@@ -7,17 +7,31 @@ inser description here
 ### Short Description of Structure
 The main file is SkynetDetector which is stored on `SkynetDetector` folder.
 
-The class SkynetDetector receives as arguments a classifier (instance of `ClassifierAbstract` which are defined in the
-`Classifiers` folder) and a list of used features (instances of `FeatureProcessorAbstract` which are defined in the 
-`Features` folder.
+The class SkynetDetector receives as arguments a classifier (instance of `ClassifierAbstract` defined in
+[Classifiers folder](https://github.com/joanap/MachineTranslationDetection/tree/master/scripts/Classifiers)) and a list 
+ features (instances of `FeatureProcessorAbstract` defined in 
+[Features folder](https://github.com/joanap/MachineTranslationDetection/tree/master/scripts/Features))).
 
 SkynetDetector provides the following methods:
+- Train the classifier given a input file:
 
 ```python
-def train(self, file_path):
-def evaluate_file(self, file_path):
-def accuracy(self, test_file_path):
-def predict(self, sentence, print_to_console=True):
+def train(self, file_path)
+```
+- Evaluate a file and print to the console the result:
+
+```python
+def evaluate_file(self, file_path)
+```
+- Returns the accuracy of the model given a test input file
+
+```python
+def accuracy(self, test_file_path)
+```
+- Returns the most plausible class for a given sentence
+
+```python
+def predict(self, sentence, print_to_console=True)
 ```
 
 Usage examples can be found on `scripts/SkynetDetectorModelAccuracy.py` and `scripts/SkynetDetectorEvaluateToFile.py`
