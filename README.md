@@ -37,9 +37,18 @@ def accuracy(self, test_file_path)
 def predict(self, sentence, print_to_console=True)
 ```
 
-Usage examples can be found on:
-- `scripts/SkynetDetectorModelAccuracy.py`
-- `scripts/SkynetDetectorEvaluateToFile.py`
+We already provide some python scripts:
+- Evaluate the accuracy of the model [SkynetDetectorModelAccuracy.py](https://github.com/joanap/MachineTranslationDetection/blob/master/scripts/SkynetDetectorModelAccuracy.py):
+
+```sh
+python scripts/SkynetDetectorModelAccuracy.py data/train_dataset.txt data/test_dataset.txt
+```
+
+- Evaluate a input file [SkynetDetectorEvaluateToFile.py](https://github.com/joanap/MachineTranslationDetection/blob/master/scripts/SkynetDetectorEvaluateToFile.py):
+
+```sh
+python scripts/SkynetDetectorEvaluateToFile.py data/train_dataset.txt data/test_dataset.txt > output.txt
+```
 
 # Instalation
 
@@ -49,20 +58,6 @@ Dependencies:
 * scikit-learn for ML
 
 Download and extract the repository zip.
-
-### Examples
-
-- Evaluate the accuracy of the model:
-
-```sh
-python scripts/SkynetDetectorModelAccuracy.py data/train_dataset.txt data/test_dataset.txt
-```
-
-- Evaluate a input file:
-
-```sh
-python scripts/SkynetDetectorEvaluateToFile.py data/train_dataset.txt data/test_dataset.txt > output.txt
-```
 
 # Troubleshooting
 
