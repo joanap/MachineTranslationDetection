@@ -22,7 +22,7 @@ class SkynetDetector:
         splitter.split(file_path)
 
     def predict(self, sentence, print_to_console=True):
-        feature_vector = self._process_features(sentence)
+        feature_vector = self._process_features(sentence.lower())
         prediction = self.classifier.predict([feature_vector])[0]
 
         if print_to_console:

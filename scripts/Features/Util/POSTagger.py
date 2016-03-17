@@ -5,7 +5,16 @@ from nltk.corpus import cess_esp
 
 
 class POSTagger:
-    DEFAULT_TAG = 'n'
+    DEFAULT_TAG = "n"
+
+    ADJECTIVE = "a"
+
+    ARTICLE = "d"
+    INDEFINITE_ARTICLE = "i" # second letter
+    DEFINITE_ARTICLE = "a" # second letter
+
+    PROPOSITIONS = "s"
+
 
     def __init__(self, tsents=cess_esp.tagged_sents()):
         """
@@ -58,6 +67,64 @@ class POSTagger:
             result += el[0] + " "
         return result
 
-if __name__ == '__main__':
-    tagger = POSTagger()
-    print tagger.tag_sentence(u"Ella publica fotos de ella Crush Hombre !")
+    def get_tag(self, word):
+        """
+        Returns the tag of the tuple
+        :param word:
+        :return: the tag
+        """
+        return word[1]
+
+    def get_category(self, tag):
+        return tag[0]
+
+    def is_pronoun(self, tag):
+        return self.get_category(tag)
+
+    def are_in_concordance(self, tag1, tag2):
+        """
+        When applicable. Following http://www.ilc.cnr.it/EAGLES96/annotate/node17.html
+        :param tag1:
+        :param tag2:
+        :return: True or False
+        """
+
+        number1, gender1 = None, None
+        if tag1.startswith('v'):
+            number1, gender1 = self.number_from_verb(tag1), self.gender_from_verb(tag1)
+        elif tag1.startswith('pp'):
+            number1, gender1 = self.number_from_pronom(tag1), self.gender_from_pronom(tag1)
+        elif tag1.startswith('a'):
+            number1, gender1 = self.number_from_adjective(tag1), self.gender_from_adjective(tag1)
+        else:
+            return True
+
+        number2, gender2 = None, None
+        if tag2.startswith('v'):
+            number2, gender2 = self.number_from_verb(tag2), self.gender_from_verb(tag2)
+        elif tag2.startswith('pp'):
+            number2, gender2 = self.number_from_pronom(tag2), self.gender_from_pronom(tag2)
+        elif tag2.startswith('a'):
+            number2, gender2 = self.number_from_adjective(tag2), self.gender_from_adjective(tag2)
+        else:
+            return True
+
+        return number1 == number2 and (gender1 == "i" or gender2 == "i" or gender1 == gender2)
+
+    def number_from_verb(self, tag):
+        return tag[5]
+
+    def gender_from_verb(self, tag):
+        return tag[2]
+
+    def number_from_pronom(self, tag):
+        return tag[4]
+
+    def gender_from_pronom(self, tag):
+        return tag[3]
+
+    def number_from_adjective(self, tag):
+        return tag[4]
+
+    def gender_from_adjective(self, tag):
+        return tag[3]
