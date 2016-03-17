@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import sys, traceback
-import BestStrategyCalculatorHelpers.BestStrategyCalculatorPreviousDevel as bscpd
-from Features.Features import *
-from Features.Util.POSTagger import POSTagger
+import sys
+import traceback
+
+import scripts.BestStrategyCalculatorPreviousDevel as bscpd
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import BestStrategiesCalculator
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
+from Features.Features import *
+from Features.Util.POSTagger import POSTagger
 
 
 def arange(x, y, jump=0.1):
