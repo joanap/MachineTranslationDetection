@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -
 
-import sys
+import sys, random
 
 from DatasetSplitter import DatasetSplitter
 from scripts.Features.Features import *
 from Stats import Stats
-
+from SVMClassifier import SVMClassifier
 
 class SkynetDetector:
     def __init__(self, features_processors):
@@ -14,10 +14,26 @@ class SkynetDetector:
         self._data_classes = []
         self._features_data = []
         self.stats = None
+        self.classifier = SVMClassifier()
 
     def train(self, file_path):
         splitter = DatasetSplitter(line_callback=self._process_sentence)
         splitter.split(file_path)
+
+        # provide data to train svm
+        self.classifier.train(self._features_data, self._data_classes)
+
+    def predict(self, sentence):
+        feature_vector = self._process_features(sentence)
+        return self.classifier.predict([feature_vector])
+
+    def accuracy(self, file_path):
+        self.stats = Stats()
+
+        splitter = DatasetSplitter(line_callback=self._evaluate)
+        splitter.split(file_path)
+
+        return self.stats.accuracy()
 
     def _process_sentence(self, class_sentence, sentence):
         self._data_classes.append(class_sentence)
@@ -30,20 +46,9 @@ class SkynetDetector:
 
         return feature_vector
 
-    def evaluate(self, expected_class_sentence, sentence):
-        self.stats.add(expected_class_sentence, self.predict(sentence))
-
-    def predict(self, sentence):
-        # call SVM.predict with the sentence
-        return 1
-
-    def accuracy(self, file_path):
-        self.stats = Stats()
-
-        splitter = DatasetSplitter(line_callback=self.evaluate)
-        splitter.split(file_path)
-
-        return self.stats.accuracy()
+    def _evaluate(self, expected_class_sentence, sentence):
+        predicted_class = self.predict(sentence)
+        self.stats.add(expected_class_sentence, predicted_class)
 
 if __name__ == "__main__":
     train_file = "../data/train_dataset.txt"

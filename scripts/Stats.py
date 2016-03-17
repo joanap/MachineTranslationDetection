@@ -18,4 +18,4 @@ class Stats:
         if total == 0:
             return 0
 
-        return self.right / total
+        return self.right * 1.0 / total

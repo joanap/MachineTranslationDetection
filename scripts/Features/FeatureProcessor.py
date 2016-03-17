@@ -30,7 +30,6 @@ class FeatureProcessor(object):
         """
         Return feature value as float
         :param sentence:
-        :param trigger:
         :return: feature value float
         """
         return

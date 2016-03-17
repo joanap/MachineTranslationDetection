@@ -8,8 +8,6 @@ class DatasetSplitter:
 
     def split(self, input_file_path):
         with open(input_file_path, 'r+') as training:
-            training = open(input_file_path, 'r+')
-
             for line in training:
                 if line:
                     split = line.split("\t", 2)
