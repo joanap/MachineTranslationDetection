@@ -3,6 +3,7 @@ import BestStrategyCalculatorPreviousDevel as bscpd
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import BestStrategiesCalculator
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
 from Features.Features import *
+from Features.ConcordanceFeature import *
 from Features.Util.POSTagger import POSTagger
 from Classifiers.SVMClassifier import *
 
@@ -24,7 +25,7 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
     # ADD TESTS BELOW
     #####################################
 
-    bsc.add_test(SVMClassifier(), Strategy(Feature2(), Feature3()))
+    bsc.add_test(SVMClassifier(), Strategy(WordCounter(), StopWordsCounter(), ConcordanceFeature(tagger, 1), ConcordanceFeature(tagger, 2)))
 
     error_status = 0
     try:

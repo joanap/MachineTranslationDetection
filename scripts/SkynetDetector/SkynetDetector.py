@@ -45,7 +45,12 @@ class SkynetDetector:
     def _process_features(self, sentence):
         feature_vector = []
         for feature in self._features:
-            feature_vector.append(feature.process(sentence))
+            value = feature.process(sentence)
+
+            if isinstance(value, list):
+                feature_vector.extend(value)
+            else:
+                feature_vector.append(value)
 
         return feature_vector
 
