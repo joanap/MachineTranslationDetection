@@ -17,6 +17,8 @@ class DatasetSplitter:
             sentence_type = split[0]
             sentence = split[1]
 
+            if isinstance(sentence, str): sentence = sentence.decode("utf-8")
+
             if self._parse_class:
                 sentence_type = int(sentence_type)
                 self._read_line_callback(sentence_type, sentence)

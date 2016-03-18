@@ -36,11 +36,14 @@ class SkynetDetector:
         splitter = DatasetSplitter(line_callback=self._evaluate)
         splitter.split(test_file_path)
 
+
+        #check http://stats.stackexchange.com/questions/92101/prediction-with-scikit-and-an-precomputed-kernel-svm
         return self.stats.accuracy()
 
     def _process_sentence(self, class_sentence, sentence):
         self._data_classes.append(class_sentence)
-        self._features_data.append(self._process_features(sentence))
+        feature_vector = self._process_features(sentence)
+        self._features_data.append(feature_vector)
 
     def _process_features(self, sentence):
         feature_vector = []

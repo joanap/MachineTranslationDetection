@@ -2,17 +2,13 @@ import sys, traceback
 import BestStrategyCalculatorPreviousDevel as bscpd
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import BestStrategiesCalculator
 from BestStrategyCalculatorHelpers.BestStrategyCalculator import Strategy
-from Features.Features import *
 from Features.ConcordanceFeature import *
 from Features.Util.POSTagger import POSTagger
+from Features.WordCounter import WordCounter
+from Features.StopWordsCounter import StopWordsCounter
+from Features.RepeatedWordsCategory import RepeatedWordsCategory
 from Classifiers.SVMClassifier import *
-
-
-def arange(x, y, jump=0.1):
-  while x <= y:
-    yield x
-    x += jump
-
+from itertools import permutations
 
 def benchmark(train_dataset, test_dataset, previous_tests_function):
     tagger = POSTagger()
@@ -25,7 +21,14 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
     # ADD TESTS BELOW
     #####################################
 
-    bsc.add_test(SVMClassifier(), Strategy(WordCounter(), StopWordsCounter(), ConcordanceFeature(tagger, 1), ConcordanceFeature(tagger, 2)))
+    available_classifiers = [SVMClassifier(kernel='rbf', gamma=10)]
+    available_features = [RepeatedWordsCategory(tagger), WordCounter(), StopWordsCounter(), ConcordanceFeature(tagger, 1), ConcordanceFeature(tagger, 2)]
+
+    for classifier in available_classifiers:
+        for i in range(0, len(available_features)+1):
+            for subset in permutations(available_features, i):
+                if subset != ():
+                    bsc.add_test(classifier, Strategy(*subset))
 
     error_status = 0
     try:
@@ -34,7 +37,7 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
         print "\nXXXXXXXXXXXXXXX\nXXXXXXXXXXXXXXX\n"
         traceback.print_exc(file=sys.stdout)
         print "\nXXXXXXXXXXXXXXX\nXXXXXXXXXXXXXXX\n"
-        error = 1
+        error_status = 1
     finally:
         print ""
         bsc.show_results()

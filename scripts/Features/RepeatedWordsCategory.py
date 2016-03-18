@@ -5,6 +5,7 @@ from Util.POSTagger import POSTagger
 class RepeatedWordsCategory(FeatureProcessor):
     def __init__(self, tagger):
         FeatureProcessor.__init__(self)
+        self._add_arguments_description("tagger")
         self._tagger = tagger
 
     def process(self, sentence):
@@ -27,16 +28,14 @@ class RepeatedWordsCategory(FeatureProcessor):
         return len(words) - len(set(words))
 
     def group_words_by_category(self, sentence):
-        category_map = {}
-        pos_tags = tagger.tag_sentence(sentence)
+        category_map = dict((el, []) for el in [u'a', u'c', u'I', u'd', u'F', u'i', u'n', u'p', u's', u'r', u'W', u'v', u'Y', u'X', u'Z'])
+        pos_tags = self._tagger.tag_sentence(sentence)
 
         for pos_tag in pos_tags:
             surface = pos_tag[0]
             tag = pos_tag[1][0]
-            if tag in category_map:
-                category_map[tag] += [surface]
-            else:
-                category_map[tag] = [surface]
+            category_map[tag].append(surface)
+
         return category_map
 
 

@@ -1,6 +1,5 @@
 import sys
 from SkynetDetector.SkynetDetector import SkynetDetector
-from Features.Features import *
 from Classifiers.SVMClassifier import *
 
 if __name__ == "__main__":
@@ -17,7 +16,7 @@ if __name__ == "__main__":
 
     # best features
     classifier = SVMClassifier()
-    features = [Feature1(), Feature2(), Feature3()]
+    features = []
 
     # Evaluate the accuracy of the model
     a = SkynetDetector(classifier, features)

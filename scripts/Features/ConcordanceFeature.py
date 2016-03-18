@@ -9,7 +9,7 @@ class ConcordanceFeature(FeatureProcessor):
         :return:
         """
         FeatureProcessor.__init__(self)
-        self._add_arguments_description(neighbors_window)
+        self._add_arguments_description("tagger", neighbors_window)
 
         self._tagger = tagger
         self.neighbors_window = neighbors_window
@@ -23,12 +23,12 @@ class ConcordanceFeature(FeatureProcessor):
         tags_len = len(tags)
         for i in range(0, len(tags)):
             for j in range(i+1, min(tags_len, i+self.neighbors_window+1)):
-                if tagger.are_in_concordance(tags[i], tags[j]):
+                if self._tagger.are_in_concordance(tags[i], tags[j]):
                     concordance += 1
                 else:
                     not_according += 1
 
-        return concordance, not_according
+        return [concordance, not_according]
 
 
 

@@ -128,3 +128,7 @@ class POSTagger:
 
     def gender_from_adjective(self, tag):
         return tag[3]
+
+
+if __name__ == "__main__":
+    tagger = cess_esp.tagged_sents()
