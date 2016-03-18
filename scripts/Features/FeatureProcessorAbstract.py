@@ -25,7 +25,7 @@ class FeatureProcessor(object):
         self.description += ")"
 
     @abc.abstractmethod
-    def process(self, sentence):
+    def process(self, sentence, len_sentence):
         """
         Return feature value as float
         :param sentence:

@@ -9,8 +9,17 @@ import sys
 class NGramProbability:
 
     def __init__(self, bigram_path, trigram_path):
-         self.bigrams = self._load_n_gram(bigram_path)
-         self.trigrams = self._load_n_gram(trigram_path)
+        bi = self._load_n_gram(bigram_path)
+        if len(bi) == 0:
+            print "ERROR: Bigrams file is empty"
+
+        tri = self._load_n_gram(trigram_path)
+        if len(tri) == 0:
+            print "ERROR: Trigrams file is empty"
+
+        self.bigrams = bi
+        self.trigrams = tri
+
 
     def _load_n_gram(self, path):
         count = dict()
@@ -33,7 +42,8 @@ class NGramProbability:
             except_last_word = except_last_word.strip(" ")
 
             if trigram not in self.trigrams or except_last_word not in self.bigrams:
-                return 0
+                result.append(0)
+                continue
 
             num = numpy.float64(self.trigrams[trigram])
             den = numpy.float64(self.bigrams[except_last_word])
@@ -54,9 +64,9 @@ class NGramProbability:
                 except_last_word += " " + s
             except_last_word = except_last_word.strip(" ")
 
-            num = None
             if trigram not in self.trigrams or except_last_word:
-                return 1 / num_bigrams
+                result.append(1*1.0 / num_bigrams)
+                continue
 
             num = numpy.float64(self.trigrams[trigram]) + 1
             den = numpy.float64(self.bigrams[except_last_word]) + num_bigrams

@@ -8,12 +8,12 @@ class RepeatedWordsCategory(FeatureProcessor):
         self._add_arguments_description("tagger")
         self._tagger = tagger
 
-    def process(self, sentence):
+    def process(self, sentence, len_sentence):
         category_map = self.group_words_by_category(sentence)
 
         res = []
         for cat in category_map:
-            res.append(self.count_repeated_words(category_map, cat))
+            res.append(self.count_repeated_words(category_map, cat)*1.0/len_sentence)
 
         return res
 

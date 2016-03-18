@@ -6,8 +6,8 @@ class StopWordsCounter(FeatureProcessor):
     def __init__(self):
         FeatureProcessor.__init__(self)
 
-    def process(self, sentence):
-        return self.count_stop_words(sentence)
+    def process(self, sentence, len_sentence):
+        return self.count_stop_words(sentence)*1.0/len_sentence
 
     def count_stop_words(self, sentence, list_words_to_remove = nltk.corpus.stopwords.words('spanish')):
         """

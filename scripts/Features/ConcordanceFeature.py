@@ -14,7 +14,7 @@ class ConcordanceFeature(FeatureProcessor):
         self._tagger = tagger
         self.neighbors_window = neighbors_window
 
-    def process(self, sentence):
+    def process(self, sentence, len_sentence):
         tags = [x[1] for x in self._tagger.tag_sentence(sentence)]
 
         concordance = 0
@@ -28,7 +28,7 @@ class ConcordanceFeature(FeatureProcessor):
                 else:
                     not_according += 1
 
-        return [concordance, not_according]
+        return [concordance*1.0/len_sentence, not_according*1.0/len_sentence]
 
 
 
