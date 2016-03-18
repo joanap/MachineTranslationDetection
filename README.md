@@ -4,6 +4,9 @@
 ### Description of the ML features
 inser description here
 
+We would like to also deal with grammar and identify cases where in (translated in english) makes more sense "him" than 
+"he" that still has gender and number accordance but it is not appropriate in the target language.
+
 ### Recommended reading: 
 - [Machine Translation Detection From Monolingual Web-Text](http://www.aclweb.org/anthology/P13-1157)
 - [Support Vector Machines (SVM)](http://scikit-learn.org/stable/modules/svm.html)
