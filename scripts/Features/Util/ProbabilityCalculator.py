@@ -22,7 +22,7 @@ class NGramProbability:
         return count
 
     def probability(self, sentence):
-        sentence_trigrams =  n.countNGramsLine(dict(), sentence, 3).keys()
+        sentence_trigrams =  n.count_n_grams_line(dict(), sentence, 3).keys()
 
         result = []
         for trigram in sentence_trigrams:
@@ -43,7 +43,7 @@ class NGramProbability:
         return result
 
     def probability_smoothed(self, sentence):
-        sentence_trigrams =  n.countNGramsLine(dict(), sentence, 3).keys()
+        sentence_trigrams =  n.count_n_grams_line(dict(), sentence, 3).keys()
 
         num_bigrams = numpy.float64(len(self.bigrams) + 1)
         result = []

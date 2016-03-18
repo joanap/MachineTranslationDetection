@@ -1,18 +1,34 @@
 import sys
 import codecs
+from nltk.corpus import cess_esp
 
 # Counts the number of n grams in a file
-def countNGrams(f, n):
+def count_n_grams_corpus_unbabel(f, n):
     nGramDict = dict()
 
     for line in f:
         if isinstance(line, str): line = line.decode("utf-8")
-        nGramDict = countNGramsLine(nGramDict,line.split("\t")[1], n)
+        sentence_splitted = line.split("\t")
+
+        print sentence_splitted[0]
+        nGramDict = count_n_grams_line(nGramDict, line.split("\t")[0][0], n)
+
+    return nGramDict
+
+def count_n_grams_corpus(f, n):
+    nGramDict = dict()
+
+    sentence = ""
+    for tag in f:
+        sentence += tag[0][0:2] + " "
+    sentence = sentence.strip(" ")
+
+    nGramDict = count_n_grams_line(nGramDict, sentence, n)
 
     return nGramDict
 
 # Counts the n-grams in a line and puts it in a dict
-def countNGramsLine(nGramDict, line, n):
+def count_n_grams_line(nGramDict, line, n):
     sentence = line.strip('\n').lower().split()
     sentence_size = len(sentence)
     for i in range(sentence_size):
@@ -41,12 +57,26 @@ def save(output, nGramDict):
         value = u"{0}\t{1}\n".format(k, v)
         output.write(value)
 
-def main():
-    with open(sys.argv[1], "r") as f:
+def simplify_tag(t):
+    if "+" in t:
+        return t[t.index("+")+1:]
+    else:
+        return t
+
+def load_from_file():
+    with codecs.open(sys.argv[3], "w", "utf-8") as o:
         n = int(sys.argv[2])
-        with codecs.open(sys.argv[3], "w", "utf-8") as o:
-            nGramDict = countNGrams(f, n)
+        with open(sys.argv[1], "r") as f:
+            nGramDict = count_n_grams_corpus_unbabel(f, n)
             save(o, nGramDict)
 
+def load_corpus(corpus):
+    with codecs.open(sys.argv[3], "w", "utf-8") as o:
+        n = int(sys.argv[2])
+        f = [[simplify_tag(t) for (w, t) in sent] for sent in corpus if sent]
+        nGramDict = count_n_grams_corpus(f, n)
+        save(o, nGramDict)
+
 if __name__ == "__main__":
-    main()
+    #load_from_file()
+    load_corpus(cess_esp.tagged_sents())
