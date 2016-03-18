@@ -3,7 +3,7 @@ from Util.POSTagger import *
 
 
 class ConcordanceFeature(FeatureProcessor):
-    def __init__(self, neighbors_window):
+    def __init__(self, tagger, neighbors_window):
         """
         :param neighbors_window: int
         :return:
@@ -11,10 +11,11 @@ class ConcordanceFeature(FeatureProcessor):
         FeatureProcessor.__init__(self)
         self._add_arguments_description(neighbors_window)
 
+        self._tagger = tagger
         self.neighbors_window = neighbors_window
 
     def process(self, sentence):
-        tags = [x[1] for x in tagger.tag_sentence(sentence)]
+        tags = [x[1] for x in self._tagger.tag_sentence(sentence)]
 
         concordance = 0
         not_according = 0
@@ -37,5 +38,5 @@ if __name__ == "__main__":
     #tags = [u'pp1csn00', u'vmip3s0', u'ncfp000', u'sps00', u'pp3fs000', 'n', 'n', u'Fat'] # u"yo publica fotos de ella Crush Hombre !"
     #tags = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
-    f = ConcordanceFeature(1)
+    f = ConcordanceFeature(tagger, 1)
     print f.process(u"yo publica fotos de ella Crush Hombre !")
