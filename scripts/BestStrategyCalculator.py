@@ -23,16 +23,6 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
     tagger = POSTagger()
     tagger.train()
 
-    bsc = BestStrategiesCalculator()
-    previous_tests_function(bsc, tagger)
-
-    #####################################
-    # ADD TESTS BELOW
-    #####################################
-
-    available_classifiers = [SVMClassifier(kernel='rbf', gamma=10)]
-    available_features = []
-
     print "Getting ngram for words"
     ngram_words = NGramProbability("./data/output.bigram", "./data/output.trigram")
 
@@ -41,6 +31,18 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
 
     print "Getting ngram for cats and subcats"
     ngrams_cats_subcats = NGramProbability("./data/output_category_subtype_tags.bigram", "./data/output_category_subtype_tags.trigram")
+
+    bsc = BestStrategiesCalculator()
+    previous_tests_function(bsc, tagger, ngram_words, ngram_categories, ngrams_cats_subcats)
+
+
+    #####################################
+    # ADD TESTS BELOW
+    #####################################
+
+    available_classifiers = [SVMClassifier(kernel='rbf', gamma=10)]
+    available_features = []
+
 
     print "Creating threeholds combinations"
     for threeshold in [0.25, 0.5, 0.75]:

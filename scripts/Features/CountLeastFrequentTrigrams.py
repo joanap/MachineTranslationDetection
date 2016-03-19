@@ -16,28 +16,28 @@ class CountMostFrequentTrigrams(FeatureProcessor):
                 print "Allocating space for words ngrams"
                 self.ngram_prob = NGramProbability("./data/output.bigram", "./data/output.trigram")
 
-            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"'ngram_words'")
+            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"ngram_words")
             self._pre_process = self._filter_words
         elif type == "categories":
             if ngram is None:
                 print "Allocating space for categories ngrams"
                 self.ngram_prob = NGramProbability("./data/output_category_tags.bigram", "./data/output_category_tags.trigram")
 
-            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"'ngram_categories'")
+            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"ngram_categories")
             self._pre_process = self._filter_category
         elif type == "tags":
             if ngram is None:
                 print "Allocating space for tags ngrams"
                 self.ngram_prob = NGramProbability("./data/output_tags.bigram", "./data/output_tags.trigram")
 
-            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"'ngram_words'")
+            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"ngram_words")
             self._pre_process = self._filter_tags
         elif type == "cats_subcats":
             if ngram is None:
                 print "Allocating space for words cats_subcats"
                 self.ngram_prob = NGramProbability("./data/output_category_subtype_tags.bigram", "./data/output_category_subtype_tags.trigram")
 
-            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"'ngram_cats_subcats'")
+            self._add_arguments_description("tagger", threeshold, "'" + type + "'", r"ngram_cats_subcats")
             self._pre_process = self._filter_cat_subcasts
 
 
