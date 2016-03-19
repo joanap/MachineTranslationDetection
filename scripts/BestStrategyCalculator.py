@@ -31,7 +31,7 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
     #####################################
 
     available_classifiers = [SVMClassifier(kernel='rbf', gamma=10)]
-    available_features = [RepeatedWordsCategory(tagger), WordCounter(), StopWordsCounter(), ConcordanceFeature(tagger, 1), ConcordanceFeature(tagger, 2)]
+    available_features = []
 
     print "Getting ngram for words"
     ngram_words = NGramProbability("./data/output.bigram", "./data/output.trigram")
@@ -47,6 +47,13 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
         #available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "words", ngram_words))
         available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "categories", ngram_categories))
         #available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "cats_subcats", ngrams_cats_subcats))
+
+    available_features.append(RepeatedWordsCategory(tagger))
+    available_features.append(WordCounter())
+    available_features.append(StopWordsCounter())
+    available_features.append(ConcordanceFeature(tagger, 1))
+    available_features.append(ConcordanceFeature(tagger, 2))
+
 
     for classifier in available_classifiers:
         for i in range(0, len(available_features)+1):

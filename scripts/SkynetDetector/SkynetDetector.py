@@ -36,7 +36,6 @@ class SkynetDetector:
         splitter = DatasetSplitter(line_callback=self._evaluate)
         splitter.split(test_file_path)
 
-
         #check http://stats.stackexchange.com/questions/92101/prediction-with-scikit-and-an-precomputed-kernel-svm
         return self.stats.accuracy()
 

@@ -9,9 +9,7 @@ def count_n_grams_corpus_unbabel(f, n):
     for line in f:
         if isinstance(line, str): line = line.decode("utf-8")
         sentence_splitted = line.split("\t")
-
-        print sentence_splitted[0]
-        nGramDict = count_n_grams_line(nGramDict, line.split("\t")[0][0], n)
+        nGramDict = count_n_grams_line(nGramDict, sentence_splitted[1], n)
 
     return nGramDict
 
@@ -78,5 +76,5 @@ def load_corpus(corpus):
         save(o, nGramDict)
 
 if __name__ == "__main__":
-    #load_from_file()
-    load_corpus(cess_esp.tagged_sents())
+    load_from_file()
+    #load_corpus(cess_esp.tagged_sents())

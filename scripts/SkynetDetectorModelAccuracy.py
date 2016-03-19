@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import sys
 from SkynetDetector.SkynetDetector import SkynetDetector
 from Classifiers.SVMClassifier import *
+from Features.WordCounter import WordCounter
 
 if __name__ == "__main__":
     train_file, test_file = None, None
@@ -14,7 +17,7 @@ if __name__ == "__main__":
 
     # best features
     classifier = SVMClassifier()
-    features = []
+    features = [WordCounter()]
 
     # Evaluate the accuracy of the model
     a = SkynetDetector(classifier, features)
