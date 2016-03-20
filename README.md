@@ -3,13 +3,16 @@
 
 ### Description of the ML features
 In order to extract information either from training or testing sets, we select the following features:
-- Length of sentence: the number of words in a sentence
-- Number of stopwords: the number of stop words in a sentence, which are the ones that do not contain important significance to be used in search queries.
-- Number of repeated words: the number of repeated words per category in a sentence. Thus, there are as many features as categories,
-since a feature corresponding to a category.
-Example of categories: Noun, adjective, preposition.
-- Concordance between tags:
-- Number of least frequent trigrams: the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.75.
+- **Length of sentence:** the number of words in a sentence;
+- **Number of Stop Words:** the number of stop words in a sentence, which are the ones that do not contain important significance to be used in search queries;
+- **Number of repeated words:** the number of repeated words per POS in a sentence. Thus, there are as many features as POS,
+since a feature corresponding to one POS.
+Used POS:
+- **Concordance between tags:** the number of concordances between gender and number in a sentence. For a target word tagged with one of
+POS mentioned bellow, it is analysed the previous and the word before and sum the ones which are in concordance. Another similiar feature counts
+the concordances between the two previous and two words before.
+Used POS: Personal Pronouns, Verbs and Adjectives
+- **Number of least frequent trigrams:** the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.85.
 
 We would like to also deal with grammar and identify cases where in (translated in english) makes more sense "him" than 
 "he" that still has gender and number accordance but it is not appropriate in the target language.
