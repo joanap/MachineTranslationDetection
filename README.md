@@ -20,9 +20,9 @@ We would like to also deal with grammar and identify cases where in (translated 
 ### ML Classifier
 With the features above we trained a SVM in order to decide if a sentence is human or machine translated. We used a radial basis funtion
 kernel, as suggested by [Arase and Zhou](http://www.aclweb.org/anthology/P13-1157) with a gamma of 10. To accomplish that we used an implementation
-in [scikit-learn](http://scikit-learn.org/stable/modules/svm.html#classification).
+of [scikit-learn](http://scikit-learn.org/stable/modules/svm.html#classification).
 
-### Corpus and Data Partitions
+### Data Partitions
 We split a Spanish labelled corpus with 20078 sentences to create a training set with 90% of the sentences and 10% for the testing set.
 
 ### Recommended reading: 
