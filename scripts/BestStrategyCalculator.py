@@ -45,23 +45,34 @@ def benchmark(train_dataset, test_dataset, previous_tests_function):
 
 
     print "Creating threeholds combinations"
-    for threeshold in [0.25, 0.5, 0.75]:
-        #available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "words", ngram_words))
-        available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "categories", ngram_categories))
+    for threeshold in [0.75, 0.8, 0.85]:
+        available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "words", ngram_words))
+        #available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "categories", ngram_categories))
         #available_features.append(CountMostFrequentTrigrams(tagger, threeshold, "cats_subcats", ngrams_cats_subcats))
 
-    available_features.append(RepeatedWordsCategory(tagger))
-    available_features.append(WordCounter())
-    available_features.append(StopWordsCounter())
-    available_features.append(ConcordanceFeature(tagger, 1))
-    available_features.append(ConcordanceFeature(tagger, 2))
-
+    existing_tags = [u'a', u'c', u'd', u'i', u'n', u'p', u's', u'r', u'v']
+    repeated_words_categories = []
+    for i in range(0, len(existing_tags)+1):
+        for subset in permutations(existing_tags, i):
+            if subset != ():
+                repeated_words_categories.append(RepeatedWordsCategory(tagger, list(sorted(subset))))
 
     for classifier in available_classifiers:
-        for i in range(0, len(available_features)+1):
-            for subset in permutations(available_features, i):
-                if subset != ():
-                    bsc.add_test(classifier, Strategy(*subset))
+        for feature in available_features:
+            for rep in repeated_words_categories:
+                bsc.add_test(classifier, Strategy(feature, rep))
+
+#    available_features.append(WordCounter())
+#    available_features.append(StopWordsCounter())
+#    available_features.append(ConcordanceFeature(tagger, 1))
+#    available_features.append(ConcordanceFeature(tagger, 2))
+
+
+#    for classifier in available_classifiers:
+#        for i in range(0, len(available_features)+1):
+#            for subset in permutations(available_features, i):
+#                if subset != ():
+#                    bsc.add_test(classifier, Strategy(*subset))
 
     error_status = 0
     try:

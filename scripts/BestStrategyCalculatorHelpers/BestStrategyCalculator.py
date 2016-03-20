@@ -6,9 +6,10 @@ class Strategy:
     Just wraps a array of Feature processors
     """
     def __init__(self, *features):
-        self.features = features
+        self.features = sorted(features, key=lambda feature: feature.description)
+
         self.description = "Strategy("
-        for f in features:
+        for f in self.features:
             self.description = self.description + f.description + ","
 
         # remove last ,
