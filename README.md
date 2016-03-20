@@ -8,7 +8,7 @@ In order to extract information either from training or testing sets, we select 
 - **Number of repeated words:** the number of repeated words per POS in a sentence. Thus, there are as many features as POS,
 since a feature corresponding to one POS.
 Used POS:
-- **Concordance between tags:** the number of concordances between gender and number in a sentence. For a target word tagged with one of
+- **Concordance between POS:** the number of concordances between gender and number in a sentence. For a target word tagged with one of
 POS mentioned bellow, it is analysed the previous and the word before and sum the ones which are in concordance. Another similiar feature counts
 the concordances between the two previous and two words before.
 Used POS: Personal Pronouns, Verbs and Adjectives
@@ -16,6 +16,14 @@ Used POS: Personal Pronouns, Verbs and Adjectives
 
 We would like to also deal with grammar and identify cases where in (translated in english) makes more sense "him" than 
 "he" that still has gender and number accordance but it is not appropriate in the target language.
+
+### ML Classifier
+With the features above we trained a SVM in order to decide if a sentence is human or machine translated. We used a radial basis funtion
+kernel, as suggested by [Arase and Zhou](http://www.aclweb.org/anthology/P13-1157) with a gamma of 10. To accomplish that we used an implementation
+in [scikit-learn](http://scikit-learn.org/stable/modules/svm.html#classification).
+
+### Corpus and Data Partitions
+We split a Spanish labelled corpus with 20078 sentences to create a training set with 90% of the sentences and 10% for the testing set.
 
 ### Recommended reading: 
 - [Machine Translation Detection From Monolingual Web-Text](http://www.aclweb.org/anthology/P13-1157)
