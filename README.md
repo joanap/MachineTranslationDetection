@@ -2,7 +2,14 @@
 [Unbabel](https://unbabel.com/) challenge: Identify whether a text was written by a human or if it is a product of a machine translation (e.g. google translate)
 
 ### Description of the ML features
-inser description here
+In order to extract information either from training or testing sets, we select the following features:
+- Length of sentence: the number of words in a sentence
+- Number of stopwords: the number of stop words in a sentence, which are the ones that do not contain important significance to be used in search queries.
+- Number of repeated words: the number of repeated words per category in a sentence. Thus, there are as many features as categories,
+since a feature corresponding to a category.
+Example of categories: Noun, adjective, preposition.
+- Concordance between tags:
+- Number of least frequent trigrams: the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.75.
 
 We would like to also deal with grammar and identify cases where in (translated in english) makes more sense "him" than 
 "he" that still has gender and number accordance but it is not appropriate in the target language.
