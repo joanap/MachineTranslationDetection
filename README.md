@@ -2,20 +2,16 @@
 [Unbabel](https://unbabel.com/) challenge: Identify whether a text was written by a human or if it is a product of a machine translation (e.g. google translate)
 
 ### Description of the ML features
-In order to extract information either from training or testing sets, we select the following features:
+In order to extract information either from training or testing sets, we developed the following features:
 - **Length of sentence:** the number of words in a sentence;
-- **Number of Stop Words:** the number of stop words in a sentence, which are the ones that do not contain important significance to be used in search queries;
-- **Number of repeated words:** the number of repeated words per POS in a sentence. Thus, there are as many features as POS,
-since a feature corresponding to one POS.
-Used POS:
-- **Concordance between POS:** the number of concordances between gender and number in a sentence. For a target word tagged with one of
-POS mentioned bellow, it is analysed the previous and the word before and sum the ones which are in concordance. Another similiar feature counts
-the concordances between the two previous and two words before.
-Used POS: Personal Pronouns, Verbs and Adjectives
+- **Number of Stop Words:** the number of stop words in a sentence, which are the ones that do not contain important semantic information to the sentence;
+- **Number of repeated words per POS:** the number of repeated words per POS in a sentence. We add one feature per available POS tag; We exclude, for example, nouns and punctuation;
+- **Concordance between POS:** the number of concordances between gender and number in a sentence using n neigbours around a target word. It analyses concordance between verbs, adjectives and personal pronouns. We obtained better results using 1 and 2 neighbour window§
 - **Number of least frequent trigrams:** the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.85.
 
-We would like to also deal with grammar and identify cases where in (translated in english) makes more sense "him" than 
-"he" that still has gender and number accordance but it is not appropriate in the target language.
+What we did not have the opportunity to use:
+- **Use grammar features and identify incorrect bridge between phrases;
+- **Identify cases where in english makes more sense "him" than "he" which translation is lost in the target language;
 
 ### ML Classifier
 With the features above we trained a SVM in order to decide if a sentence is human or machine translated. We used a radial basis funtion
