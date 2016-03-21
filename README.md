@@ -13,8 +13,8 @@ All the features were normalized by dividing by the length of the sentence.
 
 What we did not have the opportunity to use:
 - Use grammar features and identify incorrect bridge between phrases;
-- Identify cases where in english makes more sense "him" than "he" which translation is lost in the target language;
 - Indentify concordance between other POS categories;
+- Identify gaps between phrases (see the [paper](http://www.aclweb.org/anthology/P13-1157)).
 
 ### ML Classifier
 With the features above we trained a SVM in order to decide if a sentence is human or machine translated. We used a radial basis funtion
