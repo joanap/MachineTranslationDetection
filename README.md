@@ -3,16 +3,27 @@
 
 ### Description of the ML features
 In order to extract information either from training or testing sets, we select the following features:
-- Length of sentence: the number of words in a sentence
-- Number of stopwords: the number of stop words in a sentence, which are the ones that do not contain important significance to be used in search queries.
-- Number of repeated words: the number of repeated words per category in a sentence. Thus, there are as many features as categories,
-since a feature corresponding to a category.
-Example of categories: Noun, adjective, preposition.
-- Concordance between tags:
-- Number of least frequent trigrams: the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.75.
+- **Length of sentence:** the number of words in a sentence;
+- **Number of Stop Words:** the number of stop words in a sentence, which are the ones that do not contain important significance to be used in search queries;
+- **Number of repeated words:** the number of repeated words per POS in a sentence. Thus, there are as many features as POS,
+since a feature corresponding to one POS.
+Used POS:
+- **Concordance between POS:** the number of concordances between gender and number in a sentence. For a target word tagged with one of
+POS mentioned bellow, it is analysed the previous and the word before and sum the ones which are in concordance. Another similiar feature counts
+the concordances between the two previous and two words before.
+Used POS: Personal Pronouns, Verbs and Adjectives
+- **Number of least frequent trigrams:** the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.85.
 
 We would like to also deal with grammar and identify cases where in (translated in english) makes more sense "him" than 
 "he" that still has gender and number accordance but it is not appropriate in the target language.
+
+### ML Classifier
+With the features above we trained a SVM in order to decide if a sentence is human or machine translated. We used a radial basis funtion
+kernel, as suggested by [Arase and Zhou](http://www.aclweb.org/anthology/P13-1157) with a gamma of 10. To accomplish that we used an implementation
+of [scikit-learn](http://scikit-learn.org/stable/modules/svm.html#classification).
+
+### Data Partitions
+We split a Spanish labelled corpus with 20078 sentences to create a training set with 90% of the sentences and 10% for the testing set.
 
 ### Recommended reading: 
 - [Machine Translation Detection From Monolingual Web-Text](http://www.aclweb.org/anthology/P13-1157)
