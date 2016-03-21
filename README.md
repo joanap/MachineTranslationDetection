@@ -4,10 +4,12 @@
 ### Description of the ML features
 In order to extract information either from training or testing sets, we developed the following features:
 - **Length of sentence:** the number of words in a sentence;
-- **Number of Stop Words:** the number of stop words in a sentence, which are the ones that do not contain important semantic information to the sentence;
-- **Number of repeated words per POS:** the number of repeated words per POS in a sentence. We add one feature per available POS tag; We exclude, for example, nouns and punctuation;
-- **Concordance between POS:** the number of concordances between gender and number in a sentence using n neigbours around a target word. It analyses concordance between verbs, adjectives and personal pronouns. We obtained better results using 1 and 2 neighbour window§
+- **Number of Stop Words:** the number of stop words in a sentence, which are the ones that do not contain relevant semantic information to the sentence;
+- **Number of repeated words per POS:** the number of repeated words per POS in a sentence. We add one feature per available POS tag; We exclude, e.g., nouns and punctuation. In our solution we are using the following tags from a tagger trained with the cess_esp (spanish) corpus: 'a', 'c', 'd', 'i', 'p', 'r', 's', 'v';
+- **Concordance between POS:** the number of concordances between gender and number in a sentence using n neigbours around a target word. It analyses concordance between verbs, adjectives and personal pronouns. We obtained better results using 1 and 2 neighbour window
 - **Number of least frequent trigrams:** the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.85.
+
+All the features were normalized by dividing by the length of hthe sentence.
 
 What we did not have the opportunity to use:
 - **Use grammar features and identify incorrect bridge between phrases;
