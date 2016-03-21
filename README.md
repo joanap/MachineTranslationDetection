@@ -9,7 +9,7 @@ In order to extract information either from training or testing sets, we develop
 - **Concordance between POS:** the number of concordances between gender and number in a sentence using `n` neigbours around a target word. It analyses concordance between verbs, adjectives and personal pronouns. We obtained better results using 1 and 2 neighbour window as two separate features;
 - **Number of least frequent trigrams:** the number of words' trigrams in a sentence which the probability to occur is less than a threshold of 0.85.
 
-All the features were normalized by dividing by the length of hthe sentence.
+All the features were normalized by dividing by the length of the sentence.
 
 What we did not have the opportunity to use:
 - Use grammar features and identify incorrect bridge between phrases;
