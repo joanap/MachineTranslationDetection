@@ -21,8 +21,8 @@ With the features above we trained a SVM in order to decide if a sentence is hum
 kernel, as suggested by [Arase and Zhou](http://www.aclweb.org/anthology/P13-1157) with a gamma of 10. To accomplish that we used an implementation
 of [scikit-learn](http://scikit-learn.org/stable/modules/svm.html#classification).
 
-### Data Partitions
-We split a Spanish labelled corpus with 20078 sentences to create a training set with 90% of the sentences and 10% for the testing set.
+### Data Partition
+We split a Spanish labelled corpus with 20078 sentences to create a training set with 90% of the sentences and 10% for the testing set. With the last set we obtained an accuracy of 63%.
 
 ### Recommended reading: 
 - [Machine Translation Detection From Monolingual Web-Text](http://www.aclweb.org/anthology/P13-1157)
